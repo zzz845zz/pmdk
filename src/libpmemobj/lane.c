@@ -443,9 +443,10 @@ get_lane(uint64_t *locks, struct lane_info *info, uint64_t nlocks)
 			if (info->lane_idx == info->primary &&
 					info->primary_attempts > 0) {
 				info->primary_attempts--;
+			} else {
+				++info->lane_idx;
 			}
 
-			++info->lane_idx;
 		} while (info->lane_idx < nlocks);
 
 		sched_yield();
