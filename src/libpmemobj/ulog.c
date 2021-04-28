@@ -229,6 +229,7 @@ ulog_rebuild_next_vec(struct ulog *ulog, struct ulog_next *next,
 	} while ((ulog = ulog_next(ulog, p_ops)) != NULL);
 }
 
+// ANCHOR: 중요!
 /*
  * ulog_reserve -- reserves new capacity in the ulog
  */

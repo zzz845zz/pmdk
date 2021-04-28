@@ -30,6 +30,7 @@ struct pobj_action_heap {
 	uint64_t usable_size;
 };
 
+// ANCHOR: redo log를 volatile memory에 저장하려는 용도?
 struct pobj_action {
 	/*
 	 * These fields are internal for the implementation and are not

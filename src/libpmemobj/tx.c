@@ -1147,6 +1147,7 @@ vg_verify_initialized(PMEMobjpool *pop, const struct tx_range_def *def)
 #endif
 }
 
+// ANCHOR: undo logging 핵심 함수?
 /*
  * pmemobj_tx_add_snapshot -- (internal) creates a variably sized snapshot
  */
@@ -1157,7 +1158,7 @@ pmemobj_tx_add_snapshot(struct tx *tx, struct tx_range_def *snapshot)
 	 * Depending on the size of the block, either allocate an
 	 * entire new object or use cache.
 	 */
-	void *ptr = OBJ_OFF_TO_PTR(tx->pop, snapshot->offset);
+	void *ptr = OBJ_OFF_TO_PTR(tx->pop, snapshot->offset); // pop(base) + offset
 
 	VALGRIND_ADD_TO_TX(ptr, snapshot->size);
 
@@ -1180,7 +1181,7 @@ pmemobj_tx_add_snapshot(struct tx *tx, struct tx_range_def *snapshot)
 
 		uint64_t *n = &tx->lane->layout->undo.gen_num;
 		palloc_set_value(&tx->pop->heap, action,
-			n, *n + 1);
+			n, *n + 1); // NOTE: gen_num += 1
 
 		tx->first_snapshot = 0;
 	}

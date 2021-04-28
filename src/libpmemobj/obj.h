@@ -131,11 +131,12 @@ struct pmemobjpool {
 
 	char pmem_reserved[496]; /* must be zeroed */
 
+	// NOTE: 얘네는 volatile memory에 저장
 	/* some run-time state, allocated out of memory pool... */
 	void *addr;		/* mapped region */
 	int is_pmem;		/* true if pool is PMEM */
 	int rdonly;		/* true if pool is opened read-only */
-	struct palloc_heap heap;
+	struct palloc_heap heap; // ANCHOR: allocation를 redo로 저장하는 영역?
 	struct lane_descriptor lanes_desc;
 	uint64_t uuid_lo;
 	int is_dev_dax;		/* true if mapped on device dax */

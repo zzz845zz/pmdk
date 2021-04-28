@@ -41,7 +41,7 @@ struct operation_log {
  * operation_context -- context of an ongoing palloc operation
  */
 struct operation_context {
-	enum log_type type;
+	enum log_type type; // 	LOG_TYPE_UNDO or LOG_TYPE_REDO
 
 	ulog_extend_fn extend; /* function to allocate next ulog */
 	ulog_free_fn ulog_free; /* function to free next ulogs */
@@ -412,6 +412,7 @@ operation_add_entry(struct operation_context *ctx, void *ptr, uint64_t value,
 		from_pool ? LOG_PERSISTENT : LOG_TRANSIENT);
 }
 
+// ANCHOR: logging 추가의 핵심. undo logging시 인자 ctx는 lane->undo, type은 ULOG_OPERATION_BUF_CPY
 /*
  * operation_add_buffer -- adds a buffer operation to the log
  */
